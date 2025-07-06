@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play with Maths</title>
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <div class="main">
+        <div class="heading">
+            <h1>Play with Maths</h1>
+            <p>A Platform to play with Numbers</p>
+        </div>
+    </div>
+    <div class="topics">
+        <div class="topicnames">    
+            <div class="topic">
+                <h4>Prime Numbers</h4> <p>A number greater than 1 that has only two factors: 1 and itself.</p>
+                <p>Example: 2, 3, 5, 7, 11</p>
+                <button class="prime">Try it &rarr;</button>
+            </div>
+            <div class="topic">
+                <h4>Strong Numbers</h4> <p>Sum of the factorials of digits equals the number.</p>
+                <p>Example: 145 → 1! + 4! + 5! = 145</p>
+                <button class="strong">Try it &rarr;</button>
+            </div>
+            <div class="topic">
+                <h4>Palindromic Numbers</h4> <p>Same when read forward and backward.</p>
+                <p>Example: 121, 1331, 12321</p>
+                <button class="palin">Try it &rarr;</button>
+            </div>
+            <div class="topic">
+                <h4>Armstrong Numbers</h4> 
+                <p>Sum of digits raised to power of digits = number.</p>
+                <p>Example: 153 → 1³ + 5³ + 3³ = 153</p>
+                <button class="armstrong">Try it &rarr;</button>
+            </div>
+            <div class="topic">
+                <h4>Nth Fibonacci Series</h4> <p>Each term = sum of two previous terms.</p>
+                <p>Series: 0, 1, 1, 2, 3, 5, ...</p>
+                <button class="fib">Try it &rarr;</button>
+            </div>
+            <div class="topic">
+                <h4>Composite Numbers</h4> <p>A number greater than 1 that is not prime (has more than two factors).</p>
+                <p>Example: 4, 6</p>
+                <button class="composite">Try it &rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="tester" class="tester-box" style="display:none"></div>
+
+    <script>
+        const tester=document.getElementById("tester");
+
+        const topics={
+            prime:{
+                title:"Prime Number",
+                desc:"A number greater than 1 that has only two factors: 1 and itself.",
+                check:(num)=>{
+                    if(num<=1)return false;
+                    for(let i=2;i<=Math.sqrt(num);i++)
+                    {
+                        if(num%i===0)return false;
+                    }
+                    return true;
+                }
+            },
+            strong: {
+                title: "Strong Number",
+                desc: "Sum of the factorials of digits equals the number.",
+                check: (num) => {
+                    const fact = n => n <= 1 ? 1 : n * fact(n - 1);
+                    return num === num.toString().split('').reduce((sum, d) => sum + fact(Number(d)), 0);
+                }
+            },
+            palin:{
+                title:"Palindrome Number",
+                desc:"Same when read forward and backward.",
+                check:(num)=>{
+                    const str=num.toString();
+                    return str===str.split('').reverse().join('');
+                }
+            },
+            armstrong:{
+                title:"Armstrong Number",
+                desc:"Sum of digits raised to power of digits = number.",
+                check:(num)=>{
+                    const digits=num.toString().split('');
+                    const power=digits.length;
+                    return num===digits.reduce((sum,d)=>sum+Math.pow(Number(d),power),0);
+                }
+            },
+            fib:{
+                title:"Nth Fibonacci Series",
+                desc:"Each term = sum of two previous terms.",
+                check:(num)=>{
+                    if(num===1)return 0;
+                    let a=0,b=1;
+                    for(let i=2;i<num;i++)
+                    {
+                        [a,b]=[b,a+b]; 
+                    }
+                    return b;
+                }
+            },
+            composite:{
+                title:"Composite Number",
+                desc:"A number greater than 1 that is not prime (has more than two factors).",
+                check:(num)=>{
+                    if(num<=1)return false;
+                    for(let i=2;i<=Math.sqrt(num);i++)
+                    {
+                        if(num%i===0) return true;
+                    }
+                    return false;
+                }
+            }
+        };
+        document.querySelectorAll("button").forEach(btn=>{
+            btn.addEventListener("click",()=>{
+                const type=btn.className;
+                const topic=topics[type];
+                if(!topic) return;
+
+                tester.style.display="block";
+                tester.innerHTML=
+                    `<h2>${topic.title}</h2>
+                    <p>${topic.desc}</p>
+                    <input type="number" id="userInput"     placeholder="Enter a number">
+                    <button onclick="check('${type}')">Check</button>
+                    <p id="result" style="margin-top: 10px; font-weight: bold;"></p>
+                    `;
+            });
+        });
+
+        function check(type) {
+    const val = document.getElementById("userInput").value;
+    const result = document.getElementById("result");
+
+    if (val === "") {
+      result.textContent = "Please enter a number.";
+      return;
+    }
+
+    const num = Number(val);
+    const isValid = topics[type].check(num);
+
+    if (type === "fib") {
+      result.textContent = `The ${num}ᵗʰ Fibonacci number is ${isValid}.`;
+    } else {
+      result.textContent = isValid ? "Yes! It's a valid number." : "No, it doesn't match the condition.";
+    }
+  }
+    </script>
+</body>
+</html>

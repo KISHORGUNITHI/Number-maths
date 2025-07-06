@@ -1,0 +1,29 @@
+body{
+    height:97vh;
+    margin-left: 20%;
+    margin-right:20%;
+    display:flex;
+    flex:column;
+    justify-content: center;
+    align-items:center;
+    text-align: center;
+    background-color: #f0f0f0;
+    font-family: sans-serif;
+}
+h1{
+    font-size:5vh;
+    margin-bottom:0px;
+    color: black;
+}
+button{
+    border-radius:50%;
+    background:linear-gradient(rgb(44, 112, 135));
+    border:none;
+    height:40px;
+    width:40px;
+    box-shadow: 0 4px 6px rgba(0,0,0,1);
+}
+button:hover{
+    cursor:pointer;
+    transform: translateX(10px);
+}
